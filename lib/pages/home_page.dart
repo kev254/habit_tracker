@@ -62,7 +62,7 @@ class _HomePageState extends State<HomePage> {
             onPressed: () {
               //save to db
               context.read<HabitDatabase>().deleteHabit(habit.id!);
-
+              isItemSelected= false;
               //pop box
               Navigator.pop(context);
             },
