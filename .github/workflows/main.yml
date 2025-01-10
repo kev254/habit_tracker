@@ -1,0 +1,65 @@
+name: Build Flutter App (Android)
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: macos-latest
+
+    steps:
+      # 1. Checkout Repository
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      # 2. Set Up Java
+      - name: Set Up Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'oracle'
+          java-version: '17'
+
+      # 3. Set Up Flutter
+      - name: Set Up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.27.1'
+          channel: 'stable'
+
+      # 4. Install Dependencies
+      - name: Install Dependencies
+        run: flutter pub get
+
+      # 5. Set Kotlin Version
+      - name: Set Kotlin Version
+        run: |
+          sed -i '' 's/ext.kotlin_version = .*$/ext.kotlin_version = "1.8.10"/' android/build.gradle
+      # 9. Build APK
+      - name: Build APK
+        run: flutter build apk --release
+
+      # 10. Build App Bundle
+      - name: Build App Bundle
+        run: flutter build appbundle --release
+
+      # 11. Upload Artifacts
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: Flutter Releases
+          path: |
+            build/app/outputs/flutter-apk/app-release.apk
+            build/app/outputs/bundle/release/app-release.aab
+
+      # 12. Create GitHub Release
+      - name: Create Release
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: "build/app/outputs/flutter-apk/app-release.apk,build/app/outputs/bundle/release/app-release.aab"
+          tag: v1.0.0
+          token: ${{ secrets.TOKEN }}
