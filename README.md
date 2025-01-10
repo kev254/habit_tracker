@@ -79,7 +79,7 @@ Before running the project, make sure you have the following tools installed on 
    
 ## 🔗 Links
 
-- [Download APK](https://github.com/kev254/habit_tracker/releases/download/v1.0.0/app-release.apk)
+- [Download APK](https://github.com/kev254/habit_tracker/releases/download/v1.1.0/app-release.apk)
 
 ## Screenshots
 ## Screenshots
