@@ -1,4 +1,4 @@
-# Habit Tracker for Solutech Test
+# Habit Tracker
 
 ## 🛠️💻 Inspiration Design UI
 
